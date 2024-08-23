@@ -40,9 +40,12 @@ def add_definition(db, key, value):
     """
 
     # Check the limit
-
+    len(db.keys())
+    if len(db.keys()) < 6:
     # Set the item in the database
-
+        db[key] = value
+    else:
+        print("Error: Too may inputs")
     pass
 
 
@@ -59,7 +62,7 @@ def delete_definition(db, key):
     """
 
     # Delete the item from db if it is present
-
+    del db[key]
     pass
 
 
