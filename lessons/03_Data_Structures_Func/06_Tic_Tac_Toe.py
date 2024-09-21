@@ -6,8 +6,11 @@ O_MARK = "O"
 
 # Implement check_row() and check_win() to allow the game to check if a player has won
 # IMPORTANT! In your code, you should use the constants X_MARK and O_MARK instead of the strings "x" and "o"
+board = 0
+def transpose(a):
+    return list(zip(*a)) 
 
-def check_row(l):
+def check_row(r):
     """Check if a player won on a row
     Args:
         l: a 3 element iterable
@@ -15,19 +18,68 @@ def check_row(l):
     Returns:
         The winner's token ( x or o ) if there is one, otherwise None
         """
+    if all([e == X_MARK for e in r]):
+        return X_MARK
+    elif all([e == O_MARK for e in r]):
+        return O_MARK
+    else:
+        return None
 
-    return None
+def check_col(c):   
+    if all([e == X_MARK for e in c]):
+        return X_MARK
+    elif all([e == O_MARK for e in c]):
+        return O_MARK
+    else:
+        return None
+        
+def check_d(board):
 
-def check_win(board):
-    """Check if a player has won on a board
-    Args:
-        board: a 3x3 2D array
+    d1 = [ board[i][i] for i in range(3) ]
+    d2 = [ board[i][2-i] for i in range(3) ]
+    if(d1 == [O_MARK, O_MARK, O_MARK]):
+        return O_MARK
+    elif(d2 == [X_MARK, X_MARK, X_MARK]):
+        return X_MARK
+    elif(d1 == [O_MARK, O_MARK, O_MARK]):
+        return O_MARK
+    elif(d2 == [O_MARK, O_MARK, O_MARK]):
+        return O_MARK
+    else:
+        return None
     
-    Returns:
-        The winner's token ( x or o ) if there is one, otherwise None
-    """
 
+m = board[:] # Copy the whole list 
+m.extend(transpose(board)) # Add all of the items from transpose to m, a bit like m += transpose(l)
+def check_win(board):
+    for i in range(1, len(m)):
+        if(i == 1 or i == 4 or i == 7):
+            if(m[i] == X_MARK and m[i+1] == X_MARK and m[i+2] == X_MARK):
+                return X_MARK
+        if(i == 1 or i == 2 or i == 3):
+            if(m[i] == X_MARK and m[i+3] == X_MARK and m[i+6] == X_MARK):
+                return X_MARK
+        if(i == 1):
+            if(m[i] == X_MARK and m[i+4] == X_MARK and m[i+8]):
+                return X_MARK
+        if(i == 3):
+            if(m[i+2] == X_MARK and m[i+4] == X_MARK and m[i+6] == X_MARK):
+                return X_MARK
+        
+        if(i == 1 or i == 4 or i == 7):
+            if(m[i] == O_MARK and m[i+1] == O_MARK and m[i+2] == O_MARK):
+                return O_MARK
+        if(i == 1 or i == 2 or i == 3):
+            if(m[i] == O_MARK and m[i+3] == O_MARK and m[i+6] == O_MARK):
+                return O_MARK
+        if(i == 1):
+            if(m[i] == O_MARK and m[i+4] == O_MARK and m[i+8]):
+                return O_MARK
+        if(i == 3):
+            if(m[i+2] == O_MARK and m[i+4] == O_MARK and m[i+6] == O_MARK):
+                return O_MARK
     return None
+        
 
 # The following code is the main part of the program. It creates a GUI for the
 # game and handles the game logic. Implement the functions above first, then
