@@ -37,8 +37,8 @@ def check_d(board):
 
     d1 = [ board[i][i] for i in range(3) ]
     d2 = [ board[i][2-i] for i in range(3) ]
-    if(d1 == [O_MARK, O_MARK, O_MARK]):
-        return O_MARK
+    if(d1 == [X_MARK, X_MARK, X_MARK]):
+        return X_MARK
     elif(d2 == [X_MARK, X_MARK, X_MARK]):
         return X_MARK
     elif(d1 == [O_MARK, O_MARK, O_MARK]):
@@ -49,35 +49,15 @@ def check_d(board):
         return None
     
 
-m = board[:] # Copy the whole list 
-m.extend(transpose(board)) # Add all of the items from transpose to m, a bit like m += transpose(l)
+
 def check_win(board):
-    for i in range(1, len(m)):
-        if(i == 1 or i == 4 or i == 7):
-            if(m[i] == X_MARK and m[i+1] == X_MARK and m[i+2] == X_MARK):
-                return X_MARK
-        if(i == 1 or i == 2 or i == 3):
-            if(m[i] == X_MARK and m[i+3] == X_MARK and m[i+6] == X_MARK):
-                return X_MARK
-        if(i == 1):
-            if(m[i] == X_MARK and m[i+4] == X_MARK and m[i+8]):
-                return X_MARK
-        if(i == 3):
-            if(m[i+2] == X_MARK and m[i+4] == X_MARK and m[i+6] == X_MARK):
-                return X_MARK
-        
-        if(i == 1 or i == 4 or i == 7):
-            if(m[i] == O_MARK and m[i+1] == O_MARK and m[i+2] == O_MARK):
-                return O_MARK
-        if(i == 1 or i == 2 or i == 3):
-            if(m[i] == O_MARK and m[i+3] == O_MARK and m[i+6] == O_MARK):
-                return O_MARK
-        if(i == 1):
-            if(m[i] == O_MARK and m[i+4] == O_MARK and m[i+8]):
-                return O_MARK
-        if(i == 3):
-            if(m[i+2] == O_MARK and m[i+4] == O_MARK and m[i+6] == O_MARK):
-                return O_MARK
+    for i in range(len(board)):
+        if(check_row(board[i]) != None):
+            return check_row(board[i])
+        if(check_col([row[i] for row in board]) != None):
+            return check_col([row[i] for row in board])
+        if(check_d(board) != None):
+            return check_d(board)
     return None
         
 
